@@ -130,6 +130,11 @@ const TextField = React.forwardRef(function TextField(inProps, ref) {
     }
   }
 
+  const id = useId(idOverride);
+  const helperTextId = helperText && id ? `${id}-helper-text` : undefined;
+  const inputLabelId = label && id ? `${id}-label` : undefined;
+  const InputComponent = variantComponent[variant];
+
   const InputMore = {};
 
   if (variant === 'outlined') {
@@ -145,11 +150,10 @@ const TextField = React.forwardRef(function TextField(inProps, ref) {
     }
     InputMore['aria-describedby'] = undefined;
   }
+  if (error && helperTextId) {
+    InputMore['aria-errormessage'] = helperTextId
+  }
 
-  const id = useId(idOverride);
-  const helperTextId = helperText && id ? `${id}-helper-text` : undefined;
-  const inputLabelId = label && id ? `${id}-label` : undefined;
-  const InputComponent = variantComponent[variant];
   const InputElement = (
     <InputComponent
       aria-describedby={helperTextId}
