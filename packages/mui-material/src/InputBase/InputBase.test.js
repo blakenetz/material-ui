@@ -727,4 +727,28 @@ describe('<InputBase />', () => {
       });
     });
   });
+
+  describe('prop: aria-description', () => {
+    it('should have accessible description when provided', () => {
+      const { container } = render(
+        <React.Fragment>
+          <InputBase aria-describedby="helper-text" />
+          <span id="helper-text">Helper message</span>
+        </React.Fragment>,
+      );
+      const input = container.querySelector('input');
+      expect(input).to.have.attribute('aria-describedby', 'helper-text');
+      expect(input).toHaveAccessibleDescription('Helper message');
+    });
+    it('should have accessible errormessage when in error state', () => {
+      const { container } = render(
+        <React.Fragment>
+          <InputBase aria-describedby="helper-text" error />
+          <span id="helper-text">Helper message</span>
+        </React.Fragment>,
+      );
+      const input = container.querySelector('input');
+      expect(input).to.have.attribute('aria-errormessage', 'helper-text');
+    });
+  });
 });
